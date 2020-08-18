@@ -1,3 +1,4 @@
 {
-    "appTitle":"TMDB movie"
+    "appTitle":"TMDB movie",
+    "nowLoading": "Now loading..."
 }

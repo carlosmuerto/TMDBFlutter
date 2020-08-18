@@ -42,6 +42,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Now loading...`
+  String get nowLoading {
+    return Intl.message(
+      'Now loading...',
+      name: 'nowLoading',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
