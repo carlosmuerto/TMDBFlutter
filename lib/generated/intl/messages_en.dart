@@ -22,6 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "appTitle" : MessageLookupByLibrary.simpleMessage("TMDB movie"),
+    "movie" : MessageLookupByLibrary.simpleMessage("Movie"),
     "nowLoading" : MessageLookupByLibrary.simpleMessage("Now loading...")
   };
 }
