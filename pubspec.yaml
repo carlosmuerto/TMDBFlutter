@@ -23,7 +23,9 @@ dependencies:
   dartz: ^0.9.1
   flutter_localizations:
     sdk: flutter
-  http: ^0.12.2
+  dio: ^3.0.10
+  connectivity: ^0.4.9
+  meta: ^1.1.8
 
 dev_dependencies:
   flutter_test:

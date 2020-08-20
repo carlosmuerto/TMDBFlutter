@@ -4,10 +4,16 @@
 // InjectableConfigGenerator
 // **************************************************************************
 
+import 'package:connectivity/connectivity.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
-import 'app/movie_list_cubit/movie_list_cubit.dart';
+import 'infrastructore/core/interceptor/dio_connectivity_request_retrier.dart';
+import 'domain/tmdb/I_tmdb_repository.dart';
+import 'injection.dart';
+import 'infrastructore/core/interceptor/retry_interceptor.dart';
+import 'infrastructore/core/secret_loader.dart';
+import 'infrastructore/tmdb/tmdb_repository.dart';
 
 /// adds generated dependencies
 /// to the provided [GetIt] instance
@@ -18,6 +24,20 @@ GetIt $initGetIt(
   EnvironmentFilter environmentFilter,
 }) {
   final gh = GetItHelper(get, environment, environmentFilter);
-  gh.factory<MovieListCubit>(() => MovieListCubit());
+  final registerModule = _$RegisterModule();
+  gh.factory<Connectivity>(() => registerModule.connectivity);
+  gh.factory<DioConnectivityRequestRetrier>(
+      () => DioConnectivityRequestRetrier(connectivity: get<Connectivity>()));
+  gh.lazySingleton<ITMDBRepository>(() => TMDBRepository());
+  gh.factory<RetryOnConnectionChangeInterceptor>(() =>
+      RetryOnConnectionChangeInterceptor(get<DioConnectivityRequestRetrier>()));
+
+  // Eager singletons must be registered in the right order
+  gh.singleton<SecretLoader>(SecretLoader());
   return get;
+}
+
+class _$RegisterModule extends RegisterModule {
+  @override
+  Connectivity get connectivity => Connectivity();
 }
