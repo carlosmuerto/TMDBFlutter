@@ -19,7 +19,7 @@ class MovieListWatcherCubit extends Cubit<MovieListWatcherState> {
   MovieListWatcherCubit(this._tMDBRepository) : super(_Initial());
 
   void loadMovies({@required String language}) async {
-    emit(_LoadInProgress());
+    if (this.state == _Initial()) emit(_LoadInProgress());
     final movielistOrF = await _tMDBRepository.fetchMovies(page: _page, language: language);
     movielistOrF.fold((f) => print(f), (movielist) {
       /*
@@ -31,17 +31,3 @@ class MovieListWatcherCubit extends Cubit<MovieListWatcherState> {
     });
   }
 }
-/*
-              FlatButton(
-                onPressed: () async {
-                  final movielistOrF = await TMDBRepository()
-                      .fetchMovies(language: Localizations.localeOf(context).languageCode);
-                  movielistOrF.fold((f) => print(f), (movielist) {
-                    for (var movie in movielist.iter) {
-                      print(movie.title);
-                    }
-                  });
-                },
-                child: Icon(Icons.developer_mode),
-              )
-              */
