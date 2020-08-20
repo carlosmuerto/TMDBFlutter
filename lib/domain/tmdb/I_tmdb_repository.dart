@@ -5,7 +5,8 @@ import 'Movie_repository_failure.dart';
 import 'movie/movie.dart';
 
 abstract class ITMDBRepository {
-  Future<Either<MovieRepositoryFailure, KtList<Movie>>> fetchMovies({int page = 1});
+  Future<Either<MovieRepositoryFailure, KtList<Movie>>> fetchMovies(
+      {int page = 1, String language = 'en'});
 
   //Future<MovieDetails> fetchMovieDetails({int id});
   //Future<KtList<Cast>> fetchMovieCast({int id});

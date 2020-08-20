@@ -1,4 +1,5 @@
 {
+    "@@locale":"es",
     "appTitle":"TMDB movie",
     "nowLoading": "Now loading...",
     "movie":"Movie"

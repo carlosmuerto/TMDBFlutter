@@ -12,6 +12,8 @@
 # Generated code
 **.freezed.dart
 **.g.dart
+**.config.dart
+**.gr.dart
 lib/generated/
 
 # IntelliJ related

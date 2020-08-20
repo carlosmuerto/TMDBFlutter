@@ -10,7 +10,7 @@ import 'presentation/core/app_widget.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   configureInjection(Environment.prod);
-  getIt<SecretLoader>().init();
+  await getIt<SecretLoader>().init();
   Dio().interceptors.add(getIt<RetryOnConnectionChangeInterceptor>());
   runApp(AppWidget());
 }

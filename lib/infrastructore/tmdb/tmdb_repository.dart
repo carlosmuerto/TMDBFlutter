@@ -19,10 +19,14 @@ class TMDBRepository implements ITMDBRepository {
           receiveTimeout: 3000,
         ));
   @override
-  Future<Either<MovieRepositoryFailure, KtList<Movie>>> fetchMovies({int page = 1}) async {
+  Future<Either<MovieRepositoryFailure, KtList<Movie>>> fetchMovies({
+    int page = 1,
+    String language = 'en',
+  }) async {
     final List<Movie> movies = [];
-    final response = await _dio.get(
-        "/movie/popular?api_key=${SecretLoader.shared.secret.apiKey}&language=en-US&page=$page");
+    final String apikey = SecretLoader.shared.secret.apiKey;
+    final response =
+        await _dio.get("/movie/popular?api_key=$apikey&language=$language-US&page=$page");
 
     if (response.statusCode != 200) {
       return left(MovieRepositoryFailure.unexpected());

@@ -18,9 +18,12 @@ class SecretLoader {
   }
 
   Future<void> init() async {
-    _secret = await rootBundle
-        .loadString('assets/secrets.json')
-        .then((jsonStr) => Secret.fromJson(json.decode(jsonStr)));
+    if (_secret == null) {
+      _secret = await rootBundle
+          .loadString('assets/secrets.json')
+          .then((jsonStr) => Secret.fromJson(json.decode(jsonStr)));
+    }
+    return null;
   }
 
   Secret _secret;

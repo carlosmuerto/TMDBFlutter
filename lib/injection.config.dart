@@ -10,6 +10,7 @@ import 'package:injectable/injectable.dart';
 
 import 'infrastructore/core/interceptor/dio_connectivity_request_retrier.dart';
 import 'domain/tmdb/I_tmdb_repository.dart';
+import 'app/movie_list_watcher_cubit/movie_list_watcher_cubit.dart';
 import 'injection.dart';
 import 'infrastructore/core/interceptor/retry_interceptor.dart';
 import 'infrastructore/core/secret_loader.dart';
@@ -29,6 +30,8 @@ GetIt $initGetIt(
   gh.factory<DioConnectivityRequestRetrier>(
       () => DioConnectivityRequestRetrier(connectivity: get<Connectivity>()));
   gh.lazySingleton<ITMDBRepository>(() => TMDBRepository());
+  gh.factory<MovieListWatcherCubit>(
+      () => MovieListWatcherCubit(get<ITMDBRepository>()));
   gh.factory<RetryOnConnectionChangeInterceptor>(() =>
       RetryOnConnectionChangeInterceptor(get<DioConnectivityRequestRetrier>()));
 
