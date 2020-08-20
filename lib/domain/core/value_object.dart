@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 import 'errors/errors.dart';
-import 'validators/Value_failure.dart';
+import 'validators/values_failures.dart';
 
 @immutable
 abstract class ValueObject<T> {

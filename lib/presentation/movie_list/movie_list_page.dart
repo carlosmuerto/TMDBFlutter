@@ -14,7 +14,7 @@ class MovieListPage extends StatelessWidget {
           loadSuccess: (loadSuccessState) {
             return Scaffold(
               body: Center(
-                child: Text(loadSuccessState.movies[0].title),
+                child: Text(loadSuccessState.movies[0].title.getOrCrash()), // change to primitive
               ),
             );
           },

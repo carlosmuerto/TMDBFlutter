@@ -7,6 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:kt_dart/kt.dart';
 
 import '../core/secret_loader.dart';
+import 'dtos/movie/movie_dto.dart';
 
 @LazySingleton(as: ITMDBRepository)
 class TMDBRepository implements ITMDBRepository {
@@ -33,7 +34,7 @@ class TMDBRepository implements ITMDBRepository {
     }
 
     (response.data['results'] as List).forEach((element) {
-      movies.add(Movie.fromJson(element));
+      movies.add(MovieDto.fromJson(element).toDomain());
     });
 
     return right(KtList.from(movies));

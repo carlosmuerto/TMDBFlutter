@@ -1,46 +1,9 @@
-import 'dart:core';
-
+import 'package:TMDBFlutter/domain/tmdb/movie/movie_value_objects.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:json_annotation/json_annotation.dart';
-
-import '../genre/genre.dart';
-import '../production_company/production_company.dart';
-import '../production_country/production_country.dart';
-import '../spoken_language/spoken_language.dart';
 
 part 'movie.freezed.dart';
-part 'movie.g.dart';
 
-@JsonKey(name: "::")
 @freezed
 abstract class Movie with _$Movie {
-  const factory Movie({
-    @JsonKey(name: "adult") bool adult,
-    @JsonKey(name: "backdrop_path") String backdropPath,
-    @JsonKey(name: "belongs_to_collection") dynamic belongsToCollection,
-    @JsonKey(name: "budget") int budget,
-    @JsonKey(name: "genres") List<Genre> genres,
-    @JsonKey(name: "homepage") String homepage,
-    @JsonKey(name: "id") int id,
-    @JsonKey(name: "imdb_id") String imdbId,
-    @JsonKey(name: "original_language") String originalLanguage,
-    @JsonKey(name: "original_title") String originalTitle,
-    @JsonKey(name: "overview") String overview,
-    @JsonKey(name: "popularity") double popularity,
-    @JsonKey(name: "poster_path") String posterPath,
-    @JsonKey(name: "production_companies") List<ProductionCompany> productionCompanies,
-    @JsonKey(name: "production_countries") List<ProductionCountry> productionCountries,
-    @JsonKey(name: "release_date") DateTime releaseDate,
-    @JsonKey(name: "revenue") int revenue,
-    @JsonKey(name: "runtime") int runtime,
-    @JsonKey(name: "spoken_languages") List<SpokenLanguage> spokenLanguages,
-    @JsonKey(name: "status") String status,
-    @JsonKey(name: "tagline") String tagline,
-    @JsonKey(name: "title") String title,
-    @JsonKey(name: "video") bool video,
-    @JsonKey(name: "vote_average") double voteAverage,
-    @JsonKey(name: "vote_count") int voteCount,
-  }) = _Movie;
-
-  factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
+  const factory Movie({@required ValidTitle title}) = _Movie;
 }
