@@ -1,5 +1,5 @@
-import 'package:TMDBFlutter/app/movie_list_watcher_cubit/movie_list_watcher_cubit.dart';
-import 'package:TMDBFlutter/presentation/core/presentation_utils.dart';
+import '../../app/movie_list_watcher_cubit/movie_list_watcher_cubit.dart';
+import '../core/presentation_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,8 +13,18 @@ class MovieListPage extends StatelessWidget {
         return state.maybeMap<Widget>(
           loadSuccess: (loadSuccessState) {
             return Scaffold(
-              body: Center(
-                child: Text(loadSuccessState.movies[0].title.getOrCrash()), // change to primitive
+              body: Padding(
+                padding: EdgeInsets.only(top: context.mediaQuery.padding.top),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.network(
+                      loadSuccessState.movies[0].posterPath.getOrCrash(),
+                    ),
+                    Text(loadSuccessState.movies[0].title.getOrCrash()),
+                  ],
+                ),
               ),
             );
           },

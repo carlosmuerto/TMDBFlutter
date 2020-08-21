@@ -17,6 +17,16 @@ abstract class ValidStringFailure<T> with _$ValidStringFailure<T> implements Val
     @required int max,
   }) = _MaxListLength<T>;
 }
+
+@freezed
+abstract class UrlFailure<T> with _$UrlFailure<T> implements ValueFailure<T> {
+  const factory UrlFailure.notUrl({@required T failedValue}) = _NotUrl<T>;
+}
+
+@freezed
+abstract class ImageUrlFailure<T> with _$ImageUrlFailure<T> implements ValueFailure<T> {
+  const factory ImageUrlFailure.notImageUrl({@required T failedValue}) = _NotImageUrl<T>;
+}
 /*
 
 Expected this library to be part of 'package:TMDBFlutter/domain/core/validators/Value_failures.dart', not 'package:TMDBFlutter/domain/core/validators/value_failures.dart'.

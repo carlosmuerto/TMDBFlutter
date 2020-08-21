@@ -27,7 +27,7 @@ class MovieListWatcherCubit extends Cubit<MovieListWatcherState> {
         print(movie.title);
       }
       */
-      emit(_LoadSuccess(movies: movielist));
+      emit(_LoadSuccess(movies: movielist, imageBaseUrl: _tMDBRepository.imageBaseUrl));
     });
   }
 }

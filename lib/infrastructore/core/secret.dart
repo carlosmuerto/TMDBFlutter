@@ -7,7 +7,6 @@ part 'secret.g.dart';
 abstract class Secret with _$Secret {
   const factory Secret({
     @required @JsonKey(name: 'api_key') String apiKey,
-    @required @JsonKey(name: 'base_url') String baseUrl,
   }) = _Secret;
   factory Secret.fromJson(Map<String, dynamic> json) => _$SecretFromJson(json);
 }

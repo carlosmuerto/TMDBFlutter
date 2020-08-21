@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import 'values_failures.dart';
 
-Either<ValidStringFailure<String>, String> validateNoteExceedingLength(
+Either<ValidStringFailure<String>, String> validateStringExceedingLength(
     String input, int maxLength) {
   if (input.length <= maxLength) {
     return right(input);
@@ -14,7 +14,7 @@ Either<ValidStringFailure<String>, String> validateNoteExceedingLength(
   }
 }
 
-Either<ValidStringFailure<String>, String> validateNoteNotEmpty(String input) {
+Either<ValidStringFailure<String>, String> validateStringNotEmpty(String input) {
   if (input.isNotEmpty) {
     return right(input);
   } else {
@@ -24,7 +24,7 @@ Either<ValidStringFailure<String>, String> validateNoteNotEmpty(String input) {
   }
 }
 
-Either<ValidStringFailure<String>, String> validateNoteSingleline(String input) {
+Either<ValidStringFailure<String>, String> validateStringSingleline(String input) {
   if (!input.contains('\n')) {
     return right(input);
   } else {

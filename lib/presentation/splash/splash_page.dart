@@ -21,7 +21,7 @@ class SplashPage extends StatelessWidget {
       listener: (BuildContext context, state) {
         state.maybeWhen(
           inital: () {},
-          loadSuccess: (_) => context.navigator.replace(Routes.movieListPage),
+          loadSuccess: (_, __) => context.navigator.replace(Routes.movieListPage),
           orElse: () {},
         );
       },

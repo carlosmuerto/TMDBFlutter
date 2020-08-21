@@ -15,6 +15,7 @@ part 'movie_dto.g.dart';
 
 @freezed
 abstract class MovieDto implements _$MovieDto {
+  const MovieDto._();
   const factory MovieDto({
     @JsonKey(name: "adult") bool adult,
     @JsonKey(name: "backdrop_path") String backdropPath,
@@ -49,5 +50,9 @@ abstract class MovieDto implements _$MovieDto {
         title: movie.title.getOrCrash(),
       );
 
-  Movie toDomain() => Movie(title: ValidTitle(title));
+  Movie toDomain({@required String imageBaseUrl}) => Movie(
+      title: ValidTitle(title),
+      posterPath: ImageUrlPath(
+        url: "$imageBaseUrl$posterPath",
+      ));
 }
