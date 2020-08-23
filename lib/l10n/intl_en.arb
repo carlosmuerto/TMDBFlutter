@@ -2,5 +2,6 @@
     "@@locale":"es",
     "appTitle":"TMDB movie",
     "nowLoading": "Now loading...",
-    "movie":"Movie"
+    "movie":"Movie",
+    "someErrorHappend":"Some Error Happend"
 }

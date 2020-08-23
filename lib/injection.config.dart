@@ -14,6 +14,7 @@ import 'app/movie_list_watcher_cubit/movie_list_watcher_cubit.dart';
 import 'injection.dart';
 import 'infrastructore/core/interceptor/retry_interceptor.dart';
 import 'infrastructore/core/secret_loader.dart';
+import 'app/selected_movie_cubit/selected_movie_cubit.dart';
 import 'infrastructore/tmdb/tmdb_repository.dart';
 
 /// adds generated dependencies
@@ -34,6 +35,8 @@ GetIt $initGetIt(
       () => MovieListWatcherCubit(get<ITMDBRepository>()));
   gh.factory<RetryOnConnectionChangeInterceptor>(() =>
       RetryOnConnectionChangeInterceptor(get<DioConnectivityRequestRetrier>()));
+  gh.factory<SelectedMovieCubit>(
+      () => SelectedMovieCubit(get<ITMDBRepository>()));
 
   // Eager singletons must be registered in the right order
   gh.singleton<SecretLoader>(SecretLoader());

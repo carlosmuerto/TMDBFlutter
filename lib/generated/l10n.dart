@@ -62,6 +62,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Some Error Happend`
+  String get someErrorHappend {
+    return Intl.message(
+      'Some Error Happend',
+      name: 'someErrorHappend',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

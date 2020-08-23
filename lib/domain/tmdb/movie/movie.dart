@@ -5,5 +5,9 @@ part 'movie.freezed.dart';
 
 @freezed
 abstract class Movie with _$Movie {
-  const factory Movie({@required ValidTitle title, @required ImageUrlPath posterPath}) = _Movie;
+  const factory Movie({
+    @required int id,
+    @required ValidTitle title,
+    @required ImageUrlPath posterPath,
+  }) = _Movie;
 }

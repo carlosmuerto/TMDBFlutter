@@ -14,20 +14,28 @@ part 'movie_list_watcher_cubit.freezed.dart';
 @injectable
 class MovieListWatcherCubit extends Cubit<MovieListWatcherState> {
   final ITMDBRepository _tMDBRepository;
-  int _page = 1;
+
+  bool canload = true;
 
   MovieListWatcherCubit(this._tMDBRepository) : super(_Initial());
 
   void loadMovies({@required String language}) async {
-    if (this.state == _Initial()) emit(_LoadInProgress());
-    final movielistOrF = await _tMDBRepository.fetchMovies(page: _page, language: language);
-    movielistOrF.fold((f) => print(f), (movielist) {
-      /*
-      for (var movie in movielist.iter) {
-        print(movie.title);
-      }
-      */
-      emit(_LoadSuccess(movies: movielist, imageBaseUrl: _tMDBRepository.imageBaseUrl));
+    int page;
+    List<Movie> movies;
+    canload = false;
+    this.state.maybeWhen(loadSuccess: (movieKtListLoaded, pageLoaded) {
+      page = pageLoaded + 1;
+      movies.addAll(movieKtListLoaded.iter);
+    }, orElse: () {
+      page = 1;
+      movies = [];
+    });
+
+    final movielistOrF = await _tMDBRepository.fetchMovies(page: page, language: language);
+    canload = true;
+    movielistOrF.fold((f) => print(f), (movieKtList) {
+      movies.addAll(movieKtList.iter);
+      emit(_LoadSuccess(movies: KtList.from({...movies}), page: page));
     });
   }
 }

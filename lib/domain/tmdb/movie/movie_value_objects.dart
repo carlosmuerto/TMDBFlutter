@@ -9,12 +9,14 @@ class ValidTitle extends ValueObject<String> {
   @override
   final Either<ValidStringFailure<String>, String> value;
 
-  static const maxLength = 30;
+  static const maxLength = 100;
 
   factory ValidTitle(String input) {
     assert(input != null, 'ValidTitle most be not null');
     return ValidTitle._(
-      validateStringExceedingLength(input, maxLength).flatMap(validateStringNotEmpty),
+      ValidStringValidators.exceedingLength(input, maxLength)
+          .flatMap(ValidStringValidators.notEmpty)
+          .flatMap(ValidStringValidators.singleline),
     );
   }
 
@@ -25,11 +27,9 @@ class ImageUrlPath extends ValueObject<String> {
   @override
   final Either<ImageUrlFailure<String>, String> value;
 
-  factory ImageUrlPath({
-    @required String url,
-  }) {
+  factory ImageUrlPath(String url) {
     assert(url != null, 'url most be not null');
-    return ImageUrlPath._(validateImageUrlFailure(url));
+    return ImageUrlPath._(ImageUrlValidators.regex(url));
   }
 
   const ImageUrlPath._(this.value);

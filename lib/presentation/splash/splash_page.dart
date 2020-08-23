@@ -1,3 +1,4 @@
+import 'package:TMDBFlutter/app/selected_movie_cubit/selected_movie_cubit.dart';
 import 'package:TMDBFlutter/presentation/routes/routes.gr.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -11,17 +12,22 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /*
     if (context.bloc<MovieListWatcherCubit>().state == MovieListWatcherState.inital()) {
       print("initial");
       context
           .bloc<MovieListWatcherCubit>()
           .loadMovies(language: Localizations.localeOf(context).languageCode);
     }
+    */
     return BlocListener<MovieListWatcherCubit, MovieListWatcherState>(
       listener: (BuildContext context, state) {
         state.maybeWhen(
           inital: () {},
-          loadSuccess: (_, __) => context.navigator.replace(Routes.movieListPage),
+          loadSuccess: (movies, page) {
+            context.bloc<SelectedMovieCubit>().showMovie(movie: movies[0]);
+            return context.navigator.replace(Routes.movieListPage);
+          },
           orElse: () {},
         );
       },

@@ -27,9 +27,3 @@ abstract class UrlFailure<T> with _$UrlFailure<T> implements ValueFailure<T> {
 abstract class ImageUrlFailure<T> with _$ImageUrlFailure<T> implements ValueFailure<T> {
   const factory ImageUrlFailure.notImageUrl({@required T failedValue}) = _NotImageUrl<T>;
 }
-/*
-
-Expected this library to be part of 'package:TMDBFlutter/domain/core/validators/Value_failures.dart', not 'package:TMDBFlutter/domain/core/validators/value_failures.dart'.
-Try including a different part, or changing the name of the library in the part's part-of directive.
-
-*/

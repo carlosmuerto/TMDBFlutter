@@ -51,8 +51,30 @@ abstract class MovieDto implements _$MovieDto {
       );
 
   Movie toDomain({@required String imageBaseUrl}) => Movie(
-      title: ValidTitle(title),
-      posterPath: ImageUrlPath(
-        url: "$imageBaseUrl$posterPath",
-      ));
+        //adult: null,
+        //backdropPath: null,
+        //belongsToCollection: null,
+        //budget: null,
+        //genres: null,
+        //homepage: null,
+        id: id,
+        //imdbId: null,
+        //originalLanguage: null,
+        //originalTitle: null,
+        //overview: null,
+        //popularity: null,
+        posterPath: ImageUrlPath("$imageBaseUrl$posterPath"),
+        //productionCompanies: null,
+        //productionCountries: null,
+        //releaseDate: null,
+        //revenue: null,
+        //runtime: null,
+        //spokenLanguages: null,
+        //status: null,
+        //tagline: null,
+        title: ValidTitle(title),
+        //video: null,
+        //voteAverage: null,
+        //voteCount: null,
+      );
 }
