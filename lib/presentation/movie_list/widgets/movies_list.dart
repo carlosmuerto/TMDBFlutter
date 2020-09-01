@@ -1,4 +1,5 @@
 import 'package:TMDBFlutter/domain/tmdb/movie/movie.dart';
+import 'package:TMDBFlutter/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,10 +18,7 @@ class MoviesList extends StatefulWidget {
 }
 
 class _MoviesListState extends State<MoviesList> {
-  int index = 0;
-  final scrollThreshold = 200;
-
-  static const _scrollThreshold = 200;
+  final _startLoadingDistance = 5;
   PageController _buttonPageController = PageController(
     initialPage: 0,
     viewportFraction: .2,
@@ -32,10 +30,24 @@ class _MoviesListState extends State<MoviesList> {
   @override
   initState() {
     super.initState();
+    _pageController.addListener(
+      () {
+        context.bloc<MovieListWatcherCubit>().state.maybeWhen(
+              loadSuccess: (movies, page) {
+                if (_pageController.page > (movies.size - _startLoadingDistance)) {
+                  context.bloc<MovieListWatcherCubit>().loadMovies(
+                        language: Localizations.localeOf(context).languageCode,
+                      );
+                }
+              },
+              orElse: () {},
+            );
+      },
+    );
   }
 
   _goToPage(int page) {
-    print(page);
+    //print(page);
     _buttonPageController.animateToPage(
       page,
       duration: Duration(milliseconds: 500),
@@ -101,130 +113,11 @@ class _MoviesListState extends State<MoviesList> {
               ],
             );
           },
-          orElse: () => SomeErrorHappend(),
+          orElse: () => _SomeErrorHappend(),
         );
       },
     );
   }
-
-/*
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<MovieListWatcherCubit, MovieListWatcherState>(
-      builder: (context, state) => state.maybeWhen<Widget>(
-        loadSuccess: (movies, page) => Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          //mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              flex: 7,
-              child: Container(
-                color: Colors.blue,
-                child: PageView.builder(
-                  controller: _pageController,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: movies.size + 1,
-                  onPageChanged: (index) {
-                    /*
-                    _buttonPageController.animateToPage(
-                      index,
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.ease,
-                    );
-                    */
-                  },
-                  itemBuilder: (context, index) {
-                    if (index >= movies.size) {
-                      return Center(
-                        child: const CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                        ),
-                      );
-                    } else {
-                      return Stack(
-                        children: [
-                          Center(
-                            child: const CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                            ),
-                          ),
-                          Expanded(
-                            child: FadeInImage.memoryNetwork(
-                              fit: BoxFit.cover,
-                              alignment: Alignment.topCenter,
-                              placeholder: kTransparentImage,
-                              image: movies[index].posterPath.getOrCrash(),
-                            ),
-                          ),
-                        ],
-                      );
-                    }
-                  },
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                color: Colors.red,
-                child: PageView.builder(
-                  itemCount: movies.size + 1,
-                  onPageChanged: (i) {
-                    /*
-                    _pageController.animateToPage(
-                      i,
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.ease,
-                    );
-                    */
-                  },
-                  allowImplicitScrolling: true,
-                  scrollDirection: Axis.horizontal,
-                  controller: _buttonPageController,
-                  itemBuilder: (context, index) {
-                    if (index >= movies.size) {
-                      return Center(
-                        child: const CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                        ),
-                      );
-                    } else {
-                      return GestureDetector(
-                        onTap: () {
-                          _pageController.animateToPage(
-                            index,
-                            duration: Duration(milliseconds: 500),
-                            curve: Curves.ease,
-                          );
-                          _buttonPageController.animateToPage(
-                            index,
-                            duration: Duration(milliseconds: 500),
-                            curve: Curves.ease,
-                          );
-                          //print(movies[index].title.getOrCrash());
-                        },
-                        child: Container(
-                          width: context.mediaQuery.size.width * 0.2,
-                          child: FadeInImage.memoryNetwork(
-                            fit: BoxFit.cover,
-                            alignment: Alignment.topCenter,
-                            placeholder: kTransparentImage,
-                            image: movies[index].posterPath.getOrCrash(),
-                          ),
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-        orElse: () => SomeErrorHappend(),
-      ),
-    );
-  }
-  */
 }
 
 class _PageViewChildren extends StatelessWidget {
@@ -297,8 +190,8 @@ class _PageViewChildren extends StatelessWidget {
   }
 }
 
-class SomeErrorHappend extends StatelessWidget {
-  const SomeErrorHappend({
+class _SomeErrorHappend extends StatelessWidget {
+  const _SomeErrorHappend({
     Key key,
   }) : super(key: key);
 

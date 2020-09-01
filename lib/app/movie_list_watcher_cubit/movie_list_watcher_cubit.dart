@@ -20,22 +20,31 @@ class MovieListWatcherCubit extends Cubit<MovieListWatcherState> {
   MovieListWatcherCubit(this._tMDBRepository) : super(_Initial());
 
   void loadMovies({@required String language}) async {
-    int page;
-    List<Movie> movies;
-    canload = false;
-    this.state.maybeWhen(loadSuccess: (movieKtListLoaded, pageLoaded) {
-      page = pageLoaded + 1;
-      movies.addAll(movieKtListLoaded.iter);
-    }, orElse: () {
-      page = 1;
-      movies = [];
-    });
+    if (canload) {
+      int page;
+      List<Movie> movies = [];
+      canload = false;
+      this.state.maybeWhen(
+        loadSuccess: (movieKtListLoaded, pageLoaded) {
+          page = pageLoaded + 1;
+          movies.addAll(movieKtListLoaded.iter);
+        },
+        orElse: () {
+          page = 1;
+        },
+      );
 
-    final movielistOrF = await _tMDBRepository.fetchMovies(page: page, language: language);
-    canload = true;
-    movielistOrF.fold((f) => print(f), (movieKtList) {
-      movies.addAll(movieKtList.iter);
-      emit(_LoadSuccess(movies: KtList.from({...movies}), page: page));
-    });
+      final movielistOrF = await _tMDBRepository.fetchMovies(page: page, language: language);
+      canload = true;
+      movielistOrF.fold((f) => print(f), (movieKtList) {
+        movies.addAll(movieKtList.iter);
+        emit(
+          _LoadSuccess(
+            movies: KtList.from({...movies}),
+            page: page,
+          ),
+        );
+      });
+    }
   }
 }

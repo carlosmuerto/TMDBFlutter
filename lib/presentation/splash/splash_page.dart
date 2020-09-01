@@ -12,14 +12,6 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /*
-    if (context.bloc<MovieListWatcherCubit>().state == MovieListWatcherState.inital()) {
-      print("initial");
-      context
-          .bloc<MovieListWatcherCubit>()
-          .loadMovies(language: Localizations.localeOf(context).languageCode);
-    }
-    */
     return BlocListener<MovieListWatcherCubit, MovieListWatcherState>(
       listener: (BuildContext context, state) {
         state.maybeWhen(
