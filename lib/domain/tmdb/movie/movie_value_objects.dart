@@ -23,6 +23,23 @@ class ValidTitle extends ValueObject<String> {
   const ValidTitle._(this.value);
 }
 
+class ValidOverview extends ValueObject<String> {
+  @override
+  final Either<ValidStringFailure<String>, String> value;
+
+  static const maxLength = 1000;
+
+  factory ValidOverview(String input) {
+    assert(input != null, 'ValidTitle most be not null');
+    return ValidOverview._(
+      ValidStringValidators.exceedingLength(input, maxLength)
+          .flatMap(ValidStringValidators.notEmpty),
+    );
+  }
+
+  const ValidOverview._(this.value);
+}
+
 class ImageUrlPath extends ValueObject<String> {
   @override
   final Either<ImageUrlFailure<String>, String> value;

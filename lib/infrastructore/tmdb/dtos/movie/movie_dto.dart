@@ -61,7 +61,7 @@ abstract class MovieDto implements _$MovieDto {
         //imdbId: null,
         //originalLanguage: null,
         //originalTitle: null,
-        //overview: null,
+        overview: ValidOverview(overview),
         //popularity: null,
         posterPath: ImageUrlPath("$imageBaseUrl$posterPath"),
         //productionCompanies: null,

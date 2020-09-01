@@ -1,5 +1,6 @@
 import 'package:TMDBFlutter/domain/tmdb/movie/movie.dart';
 import 'package:TMDBFlutter/generated/l10n.dart';
+import 'package:TMDBFlutter/presentation/core/widget/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,16 +48,10 @@ class _MoviesListState extends State<MoviesList> {
   }
 
   _goToPage(int page) {
-    //print(page);
-    _buttonPageController.animateToPage(
-      page,
-      duration: Duration(milliseconds: 500),
-      curve: Curves.easeIn,
-    );
     _pageController.animateToPage(
       page,
       duration: Duration(milliseconds: 500),
-      curve: Curves.easeIn,
+      curve: Curves.fastOutSlowIn,
     );
   }
 
@@ -79,9 +74,6 @@ class _MoviesListState extends State<MoviesList> {
               buttonChildren.add(
                 _PageViewChildren(
                   movie: movie,
-                  onTap: () {
-                    _goToPage(movies.indexOf(movie));
-                  },
                 ),
               );
             }
@@ -103,17 +95,18 @@ class _MoviesListState extends State<MoviesList> {
                   flex: 2,
                   child: Container(
                     child: PageView(
-                      physics: NeverScrollableScrollPhysics(),
+                      //physics: NeverScrollableScrollPhysics(),
                       controller: _buttonPageController,
                       scrollDirection: Axis.horizontal,
                       children: buttonChildren,
+                      onPageChanged: _goToPage,
                     ),
                   ),
                 ),
               ],
             );
           },
-          orElse: () => _SomeErrorHappend(),
+          orElse: () => SomeErrorHappend(),
         );
       },
     );
@@ -133,6 +126,9 @@ class _PageViewChildren extends StatelessWidget {
   final bool showDetails;
   final double _titleFountSize = 20;
   final double _titleFountStrokeWidth = 6;
+
+  final double _overviewFountSize = 14;
+  final double _overviewFountStrokeWidth = 6;
 
   @override
   Widget build(BuildContext context) {
@@ -158,51 +154,35 @@ class _PageViewChildren extends StatelessWidget {
           ),
           if (showDetails) ...[
             Positioned(
-                left: context.mediaQuery.padding.left + 8,
-                bottom: 8,
-                child: Stack(
-                  children: <Widget>[
-                    // Stroked text as border.
-                    Text(
-                      movie.title.getOrCrash(),
-                      style: TextStyle(
-                        fontSize: _titleFountSize,
-                        foreground: Paint()
-                          ..style = PaintingStyle.stroke
-                          ..strokeWidth = _titleFountStrokeWidth
-                          ..color = Colors.black87,
+              left: 0,
+              bottom: 0,
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      width: context.mediaQuery.size.width,
+                      child: BorderedText(
+                        title: movie.title.getOrCrash(),
+                        fountSize: _titleFountSize,
+                        fountStrokeWidth: _titleFountStrokeWidth,
                       ),
                     ),
-                    // Solid text as fill.
-                    Text(
-                      movie.title.getOrCrash(),
-                      style: TextStyle(
-                        fontSize: _titleFountSize,
-                        color: Colors.grey[300],
+                    Container(
+                      width: context.mediaQuery.size.width,
+                      padding: EdgeInsets.all(8),
+                      child: BorderedText(
+                        title: movie.overview.getOrCrash(),
+                        fountSize: _overviewFountSize,
+                        fountStrokeWidth: _overviewFountStrokeWidth,
                       ),
                     ),
                   ],
-                )),
+                ),
+              ),
+            ),
           ],
         ],
-      ),
-    );
-  }
-}
-
-class _SomeErrorHappend extends StatelessWidget {
-  const _SomeErrorHappend({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.black87,
-      alignment: Alignment.center,
-      child: Text(
-        context.s.someErrorHappend,
-        style: TextStyle(color: Colors.white),
       ),
     );
   }
